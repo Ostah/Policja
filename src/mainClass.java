@@ -22,7 +22,7 @@ public class MainClass implements ActionListener{
 		    }
 		    
 		  
-	}
+}
 	public final static int HOW_MANY_MODULES = 4; // ile mamy "okienek" 
 	ACTIVE_MENU mActiveMenu;
 	MyPanel mPanels[] = new MyPanel[HOW_MANY_MODULES];
@@ -34,8 +34,8 @@ public class MainClass implements ActionListener{
 		mActiveMenu=ACTIVE_MENU.PEOPLE;
 		mPanels[ACTIVE_MENU.PEOPLE.g()] = new People();
 		mPanels[ACTIVE_MENU.CARS.g()] = new Cars();
-		mPanels[ACTIVE_MENU.TICKETS.g()] = new Cars();
-		mPanels[ACTIVE_MENU.FIND_CAR.g()] = new Cars();
+		mPanels[ACTIVE_MENU.TICKETS.g()] = new Tickets();
+		mPanels[ACTIVE_MENU.FIND_CAR.g()] = new FindCar();
 
 		mButtons[ACTIVE_MENU.PEOPLE.g()] = new JButton("Katalog Osób");
 		mButtons[ACTIVE_MENU.CARS.g()] = new JButton("Katalog Pojazdów");
@@ -48,10 +48,10 @@ public class MainClass implements ActionListener{
 		for(int i=0;i<HOW_MANY_MODULES;i++){
 			mButtons[i].setActionCommand(ACTIVE_MENU.values()[i].toString());
 			mButtons[i].addActionListener(this);
-			mFrame.addMyPanel(mPanels[i]);
+			//mFrame.addMyPanel(mPanels[i]);
 			mFrame.addToolbarButton(mButtons[i]);
 		}
-		mPanels[0].setVisible(true);
+		mFrame.addMyPanel(mPanels[0]);
 	}
 	
 	public static void main(String[] args) {
@@ -68,12 +68,13 @@ public class MainClass implements ActionListener{
 	public void actionPerformed(ActionEvent arg0) {
 		
 		for(int i=0;i<HOW_MANY_MODULES;i++){
-			mPanels[i].setVisible(false);
+			
+			mFrame.removeMyPanel(mPanels[mActiveMenu.g()]);
 			System.out.println("Hide: " + i);
 		}
 		mActiveMenu = ACTIVE_MENU.valueOf(arg0.getActionCommand());
 		System.out.println("show: " + mActiveMenu.g());
-		mPanels[mActiveMenu.g()].setVisible(true);
+		mFrame.addMyPanel(mPanels[mActiveMenu.g()]);
 		
 		
 	}
