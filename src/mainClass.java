@@ -1,12 +1,13 @@
 
 public class mainClass {
 
-	/**
-	 * @param args
-	 */
+	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.print("lol");
+
+			System.out.print("lol");
+		  FrameDemo frame = new FrameDemo();
+		  frame.setVisible(true);
+		  frame.start();
 	}
 
 }
