@@ -1,4 +1,3 @@
-import javax.swing.JPanel;
 import java.awt.*;
 import javax.swing.*;
 public class Cars extends MyPanel {

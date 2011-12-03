@@ -1,28 +1,8 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.*;
 import javax.swing.UIManager.*;
 
 public class MainClass implements ActionListener{
-
-	public enum ACTIVE_MENU {
-		    PEOPLE(0),
-		    CARS(1),
-		    TICKETS(2),
-		    FIND_CAR(3);
-		    
-		    private final int index;
-		    ACTIVE_MENU(int index) {
-		      this.index = index;
-		    }
-		    
-		    //get
-		    int g(){
-		    	return index;
-		    }
-		    
-		  
-}
 	public final static int HOW_MANY_MODULES = 4; // ile mamy "okienek" 
 	ACTIVE_MENU mActiveMenu;
 	MyPanel mPanels[] = new MyPanel[HOW_MANY_MODULES];
@@ -48,7 +28,6 @@ public class MainClass implements ActionListener{
 		for(int i=0;i<HOW_MANY_MODULES;i++){
 			mButtons[i].setActionCommand(ACTIVE_MENU.values()[i].toString());
 			mButtons[i].addActionListener(this);
-			//mFrame.addMyPanel(mPanels[i]);
 			mFrame.addToolbarButton(mButtons[i]);
 		}
 		mFrame.addMyPanel(mPanels[0]);
@@ -64,19 +43,13 @@ public class MainClass implements ActionListener{
 	}
 
 	
-
 	public void actionPerformed(ActionEvent arg0) {
 		
-		for(int i=0;i<HOW_MANY_MODULES;i++){
-			
+		for(int i=0;i<HOW_MANY_MODULES;i++){		
 			mFrame.removeMyPanel(mPanels[mActiveMenu.g()]);
-			System.out.println("Hide: " + i);
 		}
 		mActiveMenu = ACTIVE_MENU.valueOf(arg0.getActionCommand());
-		System.out.println("show: " + mActiveMenu.g());
-		mFrame.addMyPanel(mPanels[mActiveMenu.g()]);
-		
-		
+		mFrame.addMyPanel(mPanels[mActiveMenu.g()]);		
 	}
 	
 	private static void setLookAndFeel(){
