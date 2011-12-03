@@ -18,9 +18,9 @@ public class OurFrame extends JPanel {
     }
  
     private JFrame frame;
-
-
+    private static JToolBar toolbar;
     public OurFrame() {
+    	
         initComponents();
     }
 
@@ -29,6 +29,21 @@ public class OurFrame extends JPanel {
         setLayout(new BorderLayout());
     }
 
+    
+    public void addToolbarButton(JButton button){
+    	toolbar.add(button);
+        Dimension odstep = new Dimension(50,10);
+        toolbar.addSeparator(odstep);       	
+    }
+    
+    public void addMyPanel(MyPanel panel){
+    	frame.add(panel);   
+    	panel.setVisible(true);
+    }
+    public void removeMyPanel(MyPanel panel){
+    	panel.setVisible(false);
+    	frame.remove(panel) ; 	
+    }
     private static JFrame createFrame() {
         JFrame frame = new JFrame("Policja");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,22 +66,15 @@ public class OurFrame extends JPanel {
         menubar.add(menu);
       
 
-        JToolBar toolbar = new JToolBar();
+        toolbar = new JToolBar();
         toolbar.setLayout(new FlowLayout(FlowLayout.CENTER));
         frame.add(toolbar, BorderLayout.NORTH);  
-        toolbar.add(new JButton("Katalog Osób"));
-        Dimension odstep = new Dimension(50,10);
-        toolbar.addSeparator(odstep);   
-        toolbar.add(new JButton("Katalog Pojazdów"));
-        toolbar.addSeparator(odstep);
-        toolbar.add(new JButton("Mandaty"));
-        toolbar.addSeparator(odstep);
-        toolbar.add(new JButton("ZnajdŸ auto"));
+        
 
-        JPanel window = new JPanel();
-        window.setBackground(new Color(250,0,0));
-        window.setVisible(true);
-        frame.add(window);
+//        JPanel window = new JPanel();
+//        window.setBackground(new Color(250,0,0));
+//        window.setVisible(true);
+//        frame.add(window);
         
 //        JLabel label = new JLabel("Zawartosc");
 //        label.setHorizontalAlignment(JLabel.CENTER);
@@ -79,8 +87,18 @@ public class OurFrame extends JPanel {
         statusLabel.setBorder(new EmptyBorder(4, 4, 4, 4));
         statusLabel.setHorizontalAlignment(JLabel.LEADING);
         frame.add(statusLabel, BorderLayout.SOUTH);
-
-        frame.setExtendedState(frame.getExtendedState()|JFrame.MAXIMIZED_BOTH);
+       	frame.setMinimumSize(new Dimension(640,480));
+       
+       	Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+		     // Determine the new location of the window
+		     int w = frame.getSize().width;
+		     int h = frame.getSize().height;
+		     int x = (dim.width-w)/2;
+		     int y = (dim.height-h)/2;
+		     frame.setLocation(x, y);
+		     
+      //  frame.setExtendedState(frame.getExtendedState()|JFrame.MAXIMIZED_BOTH); maksymalizuj odrazu
+        
 
         return frame;
     }
