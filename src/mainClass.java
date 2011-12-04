@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.event.*;
 import javax.swing.UIManager.*;
-import java.io.*;
 
 public class MainClass implements ActionListener{
 	public final static int HOW_MANY_MODULES = 4; // ile mamy "okienek" ;
@@ -34,21 +33,18 @@ public class MainClass implements ActionListener{
 			mFrame.addToolbarButton(mButtons[i]);
 		}
 		mFrame.addMyPanel(mPanels[0]);
-		loadSQLLoginData();
+
 	}
 	
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) {	
+		@SuppressWarnings("unused")
 		MainClass mMain = new MainClass();
-		
 		  mFrame.setVisible(true);
-		  mFrame.start();
-		
+		  mFrame.start();	
 	}
 
 	
-	public void actionPerformed(ActionEvent arg0) {
-		
+	public void actionPerformed(ActionEvent arg0) {	
 		for(int i=0;i<HOW_MANY_MODULES;i++){		
 			mFrame.removeMyPanel(mPanels[mActiveMenu.g()]);
 		}
@@ -64,37 +60,10 @@ public class MainClass implements ActionListener{
 		            break;
 		        }
 		    }
-		} catch (Exception e) {
+		}catch (Exception e){
 		    // If Nimbus is not available, you can set the GUI to another look and feel.
 		}
 	}
 	
-	public static void loadSQLLoginData() {
-		  FileInputStream fstream = null;
-			try {
-				fstream = new FileInputStream("config.cfg");
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		  DataInputStream in = new DataInputStream(fstream);
-		  BufferedReader br = new BufferedReader(new InputStreamReader(in));
-		   String strLine;
-		try{
-			if((strLine = br.readLine()) != null){
-				  mSQLLogin=strLine;
-			}
-		}catch(IOException e){
-			e.printStackTrace();
-		}
-		  
-		try{
-			if((strLine = br.readLine()) != null){
-				  mSQLPassword=strLine;
-			  }
-		}catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 
 }

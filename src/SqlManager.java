@@ -3,29 +3,22 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.io.*;
 
 public class SQLManager
 {
         private Connection conn;
-        private String url, userName, password;
+        private String mSQLUrl, mSQLLogin, mSQLPassword;
         
-        /* Konstruktor klasy <code>SqlManager<code>
-          */
-        public SQLManager()
-        {       
-                url = "jdbc:mySQL://localhost:3306/database";
-                userName = "";
-                password = "";
+     
+        public SQLManager(){       
+        		mSQLUrl = "jdbc:mySQL://localhost:3306/database";
+                loadSQLLoginData();
         }
         
-        /* Metoda <code>connect</code> inicjuje po¸�czenie z baza
-         * 
-         */
-        public String connect()
-        {
+        public String connect(){
                 try {
                         Class.forName("com.mySQL.jdbc.Driver").newInstance();
-
                 } 
                 catch (InstantiationException e) {
                         // TODO Auto-generated catch block
@@ -42,21 +35,15 @@ public class SQLManager
                 }
         
                 try {
-                        conn = DriverManager.getConnection(url, userName, password);
-                } 
-                catch (SQLException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-                return e.toString();
+                    conn = DriverManager.getConnection(mSQLUrl, mSQLLogin, mSQLPassword);
+                }catch (SQLException e) {
+	                e.printStackTrace();
+	                return e.toString();
                 }
                 return "ok";
         }
         
-        /* Metoda <code>connect</code> 
-         * 
-         */
-        private void disconnect()
-        {
+        private void disconnect(){
                 try{
                         conn.close();
                 } catch (SQLException e) {
@@ -65,23 +52,18 @@ public class SQLManager
                 }
         }
         
-        public Connection getConnection()
-        {
+        public Connection getConnection(){
                 return conn;
         }
         
-        /*public PrepareStatement createPrepareStatement(String query)
-        {
-                return conn.createPrepareStatement(query);
-        }*/
+    
         
-        public String getTable()
-        {
+        public String getTable(){
                 connect();
                 Statement statement;
                 ResultSet rs;
                 String wynik="";
-                
+              
                 try {
                         statement = conn.createStatement();
                         rs = statement.executeQuery("SELECT name FROM users");
@@ -101,8 +83,7 @@ public class SQLManager
         /* Metoda <code>getQuery</code> pobiera z bazy danych 
          *  SELECT
          */
-        public String executeQuery(String query)
-        {
+        public String executeQuery(String query){
                 connect();
                 Statement statement;
                 ResultSet rs;
@@ -125,17 +106,14 @@ public class SQLManager
         /* Metoda <code>executeUpdate</code> zmienia dane w bazie 
          *  INSERT, UPDATE or DELETE
          */
-        public String executeUpdate(String update)
-        {
+        public String executeUpdate(String update){
                 connect();
                 Statement statement;
-                          
-                                                  
+                                                             
                 try {
                         statement = conn.createStatement();
-                        statement.executeUpdate(update);
-                        
-                } catch (SQLException e) {
+                        statement.executeUpdate(update);                     
+                }catch (SQLException e){
                         // TODO Auto-generated catch block
                         System.err.println(e.toString());
                                            return e.toString();
@@ -143,4 +121,34 @@ public class SQLManager
 
         return "ok";
         }
+        
+    	public  void loadSQLLoginData(){
+    		//jeśli bedziemy uzywac bazy na localhoscie to funkcja zbedna ale gdybysmy chcieli sie 
+    		//polączyć z czymś na zewnątrz to może sie przydać
+    		  FileInputStream fstream = null;
+    			try{
+    				fstream = new FileInputStream("config.cfg");
+    			}catch(FileNotFoundException e) {
+    				// TODO Auto-generated catch block
+    				e.printStackTrace();
+    			}
+    		  DataInputStream in = new DataInputStream(fstream);
+    		  BufferedReader br = new BufferedReader(new InputStreamReader(in));
+    		   String strLine;
+    		try{
+    			if((strLine = br.readLine()) != null){
+    				  mSQLLogin=strLine;
+    			}
+    		}catch(IOException e){
+    			e.printStackTrace();
+    		}
+    		  
+    		try{
+    			if((strLine = br.readLine()) != null){
+    				  mSQLPassword=strLine;
+    			  }
+    		}catch (IOException e) {
+    			e.printStackTrace();
+    		}
+    	}
 }

@@ -1,5 +1,4 @@
 import java.awt.*;
-import javax.swing.*;
 
 public class People extends MyPanel{
 	private static final long serialVersionUID = 1L;
